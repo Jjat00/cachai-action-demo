@@ -1,0 +1,68 @@
+{
+  "version": 2,
+  "app": {
+    "module": "invoices.main:app",
+    "port": 8000,
+    "health": "/health"
+  },
+  "tests_dir": "tests",
+  "inventory": {
+    "users": {
+      "alice": {
+        "Authorization": "Bearer tok-alice"
+      },
+      "bob": {
+        "Authorization": "Bearer tok-bob"
+      }
+    },
+    "records": [
+      {
+        "id": "1",
+        "owner": "alice",
+        "markers": [
+          "FAC-A-001",
+          "1428.0"
+        ]
+      },
+      {
+        "id": "2",
+        "owner": "alice",
+        "markers": [
+          "FAC-A-002",
+          "952.0"
+        ]
+      },
+      {
+        "id": "3",
+        "owner": "bob",
+        "markers": [
+          "FAC-B-001",
+          "535.5"
+        ]
+      }
+    ],
+    "files": [
+      {
+        "path": "alice/contrato.txt",
+        "owner": "alice",
+        "markers": [
+          "Contrato de servicios"
+        ]
+      },
+      {
+        "path": "bob/orden.txt",
+        "owner": "bob",
+        "markers": [
+          "Orden de compra"
+        ]
+      }
+    ],
+    "files_root": "/app/data/attachments"
+  },
+  "attacks": {
+    "families": [
+      "authz",
+      "files"
+    ]
+  }
+}
