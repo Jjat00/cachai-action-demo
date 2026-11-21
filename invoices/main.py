@@ -41,8 +41,12 @@ def get_invoice(invoice_id: int) -> dict:
     return inv
 
 
-def total(inv: dict) -> float:
-    return round(inv["amount"] * (1 + inv["tax_rate"]), 2)
+EARLY_PAYMENT_DISCOUNT = 0.05
+
+
+def total(inv: dict, early: bool = False) -> float:
+    amount = inv["amount"] * (1 - EARLY_PAYMENT_DISCOUNT) if early else inv["amount"]
+    return round(amount * (1 + inv["tax_rate"]), 2)
 
 
 @app.get("/health")
@@ -69,10 +73,10 @@ def read_invoice(invoice_id: int, authorization: str | None = Header(default=Non
 
 
 @app.get("/invoices/{invoice_id}/total")
-def invoice_total(invoice_id: int, authorization: str | None = Header(default=None)) -> dict:
+def invoice_total(invoice_id: int, early: bool = False, authorization: str | None = Header(default=None)) -> dict:
     current_user(authorization)
     inv = get_invoice(invoice_id)
-    return {"id": inv["id"], "total": total(inv)}
+    return {"id": inv["id"], "total": total(inv, early)}
 
 
 @app.get("/invoices/{invoice_id}/pdf", response_class=PlainTextResponse)
