@@ -13,6 +13,8 @@ concurrency:
 
 permissions:
   contents: read
+  pull-requests: write  # comentario con el veredicto
+  checks: write  # check con el detalle
 
 jobs:
   cachai:
