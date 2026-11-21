@@ -82,6 +82,14 @@ def invoice_pdf(invoice_id: int, authorization: str | None = Header(default=None
     return f"PDF {inv['number']} cliente={inv['owner']} monto={inv['amount']}"
 
 
+@app.get("/invoices/{invoice_id}/summary")
+def invoice_summary(invoice_id: int, authorization: str | None = Header(default=None)) -> dict:
+    """Resumen de una factura para la vista de lista: número, monto y total con impuesto."""
+    current_user(authorization)
+    inv = get_invoice(invoice_id)
+    return {"id": inv["id"], "number": inv["number"], "amount": inv["amount"], "total": total(inv)}
+
+
 @app.get("/v2/invoices/{invoice_id}")
 def read_invoice_v2(invoice_id: int, authorization: str | None = Header(default=None)) -> dict:
     current_user(authorization)
