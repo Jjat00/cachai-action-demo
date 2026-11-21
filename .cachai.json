@@ -64,5 +64,9 @@
       "authz",
       "files"
     ]
+  },
+  "hidden": {
+    "package": ".cachai/reservado.cachai",
+    "key_env": "CACHAI_HIDDEN_KEY"
   }
 }
